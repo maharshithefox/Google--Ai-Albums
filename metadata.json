@@ -1,0 +1,6 @@
+{
+  "name": "GOOGLE AI STUDIO ALBUM DESIGNING TOOL",
+  "description": "A production-ready, commercial-grade AI-powered Wedding Album Design Platform designed for premium studios.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

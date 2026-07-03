@@ -1,0 +1,146 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Represents a user's credit balance and profile metadata in the studio.",
+      "type": "object",
+      "properties": {
+        "credits": {
+          "type": "number",
+          "description": "The current credits balance of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The registered email of the user."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the user."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last updated timestamp."
+        }
+      },
+      "required": ["credits", "email", "updatedAt"]
+    },
+    "PaymentTransaction": {
+      "title": "PaymentTransaction",
+      "description": "Represents a UPI/UTR transaction submitted for credit top-up.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "UID or unique identifier of the payer."
+        },
+        "userEmail": {
+          "type": "string",
+          "description": "Email address of the payer."
+        },
+        "credits": {
+          "type": "number",
+          "description": "Number of credits purchased."
+        },
+        "amount": {
+          "type": "number",
+          "description": "Price paid in INR."
+        },
+        "utrNumber": {
+          "type": "string",
+          "description": "The Bank UTR or Transaction ID inputted by the user."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "approved", "rejected"],
+          "description": "The verification status of the transaction."
+        },
+        "vpaPaid": {
+          "type": "string",
+          "description": "The UPI ID (VPA) where the money was routed."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of submission."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of last action."
+        }
+      },
+      "required": ["userId", "userEmail", "credits", "amount", "utrNumber", "status", "vpaPaid", "createdAt"]
+    },
+    "AutoPayMandate": {
+      "title": "AutoPayMandate",
+      "description": "Represents a recurring UPI AutoPay mandate / standing instruction registered by a user.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "UID or unique identifier of the user."
+        },
+        "userEmail": {
+          "type": "string",
+          "description": "Email address of the user."
+        },
+        "mandateId": {
+          "type": "string",
+          "description": "The registered UPI AutoPay mandate reference ID."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["monthly", "weekly", "threshold"],
+          "description": "Frequency of recurring charge."
+        },
+        "limit": {
+          "type": "number",
+          "description": "The upper price cap per recurring payment in INR."
+        },
+        "creditsToAdd": {
+          "type": "number",
+          "description": "Number of credits to automatically top-up."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "paused", "cancelled"],
+          "description": "Mandate activation state."
+        },
+        "platform": {
+          "type": "string",
+          "description": "The UPI provider app used (gpay, phonepe, paytm, razorpay)."
+        },
+        "vpaPaid": {
+          "type": "string",
+          "description": "The merchant VPA where recurring money is routed."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of registration."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of last change."
+        }
+      },
+      "required": ["userId", "userEmail", "mandateId", "type", "limit", "creditsToAdd", "status", "platform", "vpaPaid", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/user_profiles/{userId}": {
+      "schema": "UserProfile",
+      "description": "Stores current balance and details for registered users."
+    },
+    "/payment_transactions/{transactionId}": {
+      "schema": "PaymentTransaction",
+      "description": "Stores UPI transactions submitted by users with UTRs."
+    },
+    "/autopay_mandates/{mandateDocId}": {
+      "schema": "AutoPayMandate",
+      "description": "Stores registered recurring UPI AutoPay mandates."
+    }
+  }
+}
